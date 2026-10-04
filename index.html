@@ -1,0 +1,318 @@
+
+<!DOCTYPE html><html><head>
+<title>Calculadora Pablo</title>
+<meta charset="utf-8">
+<link rel="stylesheet" href="estilo.css">
+<script type="text/javascript">
+let num1;
+let operador;
+
+function vaciar () {
+  document.getElementById("n1").value = "";
+}
+
+function cuadrado(){
+
+    if(!validate()){
+        return;
+    }
+
+    let x =
+    Number(document.getElementById("n1").value);
+
+    let resultado = x*x;
+
+    document.getElementById("n1").value =
+    resultado;
+
+    fill_info(resultado);
+}
+
+function inverso(){
+
+    if(!validate()){
+        return;
+    }
+
+    let x =
+    Number(document.getElementById("n1").value);
+
+    if(x == 0){
+
+        document.getElementById("info").innerHTML =
+        "Error: división entre cero";
+
+        return;
+    }
+
+    document.getElementById("n1").value =
+    1/x;
+
+}
+function fill_info(resultado){
+
+    let info = document.getElementById("info");
+
+    if(resultado < 100){
+        info.innerHTML =
+        "El resultado es menor que 100";
+    }
+    else if(resultado <= 200){ 
+        info.innerHTML =
+        "El resultado está entre 100 y 200";
+    }
+    else{
+        info.innerHTML =
+        "El resultado es mayor que 200";
+    }
+
+}
+function mod(){
+    if(!validate()){
+        return;
+    }
+
+    let x = Number(
+        document.getElementById("n1").value
+    );
+
+    let resultado = Math.abs(x);
+
+    document.getElementById("n1").value =
+    resultado;
+
+    fill_info(resultado);
+
+}
+function fact(){
+
+    if(!validate()){
+        return;
+    }
+
+    let x =
+    Number(document.getElementById("n1").value);
+
+    if(x < 0){
+
+        alert("Error: factorial negativo");
+        return;
+
+    }
+
+    let resultado = 1;
+
+    for(let i=x ; i>1 ; i--){
+
+        resultado *= i;
+
+    }
+
+    document.getElementById("n1").value =
+    resultado;
+
+    fill_info(resultado);
+
+}
+function add(){
+    if(!validate()){
+        return;
+    }
+
+    num1 = Number(
+        document.getElementById("n1").value
+    );
+
+    operador = "+";
+
+    document.getElementById("n1").value = "";
+}
+function mul(){
+    if(!validate()){
+        return;
+    }
+
+    num1 = Number(
+        document.getElementById("n1").value
+    );
+
+    operador = "*";
+
+    document.getElementById("n1").value = "";
+}
+function eq(){
+    if(!validate()){
+        return;
+    }
+
+    let num2 = Number(
+        document.getElementById("n1").value
+    );
+
+    let resultado;
+
+    if(operador == "+"){
+
+        resultado = num1 + num2;
+
+    }
+    else if(operador == "*"){
+
+        resultado = num1 * num2;
+
+    }
+
+    document.getElementById("n1").value =
+    resultado;
+
+    fill_info(resultado);
+
+}
+function sumCSV(){
+    if(!validate()){
+        return;
+    }
+
+    let texto =
+    document.getElementById("n1").value;
+
+    let lista = texto.split(",");
+
+    let suma = 0;
+
+    for(let i = 0; i < lista.length; i++){
+
+        suma += Number(lista[i]);
+
+    }
+
+    document.getElementById("n1").value =
+    suma;
+
+    fill_info(suma);
+
+}
+function sortCSV(){
+    if(!validate()){
+        return;
+    }
+
+    let texto =
+    document.getElementById("n1").value;
+
+    let lista = texto.split(",");
+
+    lista.sort(function(a,b){
+        return a-b;
+    });
+
+    document.getElementById("n1").value =
+    lista.join(",");
+
+}
+function reverseCSV(){
+    if(!validate()){
+        return;
+    }
+
+    let texto =
+    document.getElementById("n1").value;
+
+    let lista = texto.split(",");
+
+    lista.reverse();
+
+    document.getElementById("n1").value =
+    lista.join(",");
+
+}
+function removeLast(){
+    if(!validate()){
+        return;
+    }
+
+    let texto =
+    document.getElementById("n1").value;
+
+    let lista = texto.split(",");
+
+    lista.pop();
+
+    document.getElementById("n1").value =
+    lista.join(",");
+
+}
+function validate(){
+
+    let texto =
+    document.getElementById("n1").value;
+
+    if(texto.trim() == ""){
+
+        document.getElementById("info").innerHTML =
+        "Error: campo vacío";
+
+        return false;
+    }
+
+    let patron =
+    /^-?\d+(\.\d+)?(,-?\d+(\.\d+)?)*$/;
+
+    if(!patron.test(texto)){
+
+        document.getElementById("info").innerHTML =
+        "Error: formato incorrecto";
+
+        return false;
+    }
+
+    return true;
+}
+
+</script>
+</head>
+<body>
+
+<div class="calculadora">
+
+    <h1>Calculadora</h1>
+
+    <input type="text" id="n1" onclick="vaciar()">
+
+    <h3>Operaciones</h3>
+
+<div class="botones">
+
+    <button onclick="add()">+</button>
+    <button onclick="mul()">×</button>
+    <button onclick="eq()">=</button>
+
+    <button onclick="cuadrado()">x²</button>
+    <button onclick="inverso()">1/x</button>
+    <button onclick="mod()">|x|</button>
+    <button onclick="fact()">n!</button>
+
+</div>
+
+<h3>Operaciones CSV</h3>
+
+<div class="botones">
+
+    <button onclick="sumCSV()">sum</button>
+    <button onclick="sortCSV()">sort</button>
+    <button onclick="reverseCSV()">reverse</button>
+    <button onclick="removeLast()">removeLast</button>
+
+</div>
+
+    <h2 id="info"
+        class="big"
+        title="Información sobre el número">
+        El número es...
+    </h2>
+
+</div>
+
+</body>
+</html>
+
